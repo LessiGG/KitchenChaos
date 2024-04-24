@@ -1,25 +1,69 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 7f;
     [SerializeField] private float _rotateSpeed = 10f;
+    [SerializeField] private float _interactDistance = 2f;
 
     [SerializeField] private GameInput _gameInput;
+    [SerializeField] private LayerMask _countersLayerMask;
 
     private const float PlayerRadius = 0.7f;
     private const float PlayerHeight = 2f;
 
     private bool _isWalking;
+    private Vector3 _lastInteractDirection;
 
-    private void Update()
+    private void Start()
+    {
+        _gameInput.OnInteractAction += GameInput_OnInteractAction;
+    }
+
+    private void GameInput_OnInteractAction(object sender, System.EventArgs e)
     {
         Vector2 inputVector = _gameInput.GetMovementVectorNormilized();
         Vector3 moveDirection = new Vector3(inputVector.x, 0f, inputVector.y);
-        _isWalking = moveDirection != Vector3.zero;
+
+        if (moveDirection != Vector3.zero)
+            _lastInteractDirection = moveDirection;
+
+        if (Physics.Raycast(transform.position, _lastInteractDirection, out RaycastHit raycastHit, _interactDistance, _countersLayerMask))
+        {
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+                clearCounter.Interact();
+        }
+    }
+
+    private void Update()
+    {
+        HandleMovemenent();
+        HandleInteractions();
+    }
+
+    public bool IsWalking()
+    {
+        return _isWalking;
+    }
+
+    private void HandleInteractions()
+    {
+        Vector2 inputVector = _gameInput.GetMovementVectorNormilized();
+        Vector3 moveDirection = new Vector3(inputVector.x, 0f, inputVector.y);
+
+        if (moveDirection !=  Vector3.zero)
+            _lastInteractDirection = moveDirection;
+
+        if (Physics.Raycast(transform.position, _lastInteractDirection, out RaycastHit raycastHit, _interactDistance, _countersLayerMask))
+        {
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter)) { }
+        }
+    }
+
+    private void HandleMovemenent()
+    {
+        Vector2 inputVector = _gameInput.GetMovementVectorNormilized();
+        Vector3 moveDirection = new Vector3(inputVector.x, 0f, inputVector.y);
 
         float moveDistance = _moveSpeed * Time.deltaTime;
         bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * PlayerHeight, PlayerRadius, moveDirection, moveDistance);
@@ -48,11 +92,7 @@ public class Player : MonoBehaviour
         if (canMove)
             transform.position += moveDirection * moveDistance;
 
+        _isWalking = moveDirection != Vector3.zero;
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, _rotateSpeed * Time.deltaTime);
-    }
-
-    public bool IsWalking()
-    {
-        return _isWalking;
     }
 }
