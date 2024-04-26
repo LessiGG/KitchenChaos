@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 2631531417605999060, guid: 9c743f136764ec74587195ddc687af0c,
         type: 3}
       propertyPath: m_Name
-      value: ContainerCounter
+      value: ContainerCounter_CheeseBlock
       objectReference: {fileID: 0}
     - target: {fileID: 9108422546407303284, guid: 9c743f136764ec74587195ddc687af0c,
         type: 3}
@@ -63,6 +63,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9191535491536916939, guid: 9c743f136764ec74587195ddc687af0c,
+        type: 3}
+      propertyPath: _kitchenObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d288f5c1d4b1374bbd68e4e70a5f3e6,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

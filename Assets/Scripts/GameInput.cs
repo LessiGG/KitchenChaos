@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameInput : MonoBehaviour
 {
     public event EventHandler OnInteractAction;
+    public event EventHandler OnInteractAlternateAction;
 
     private PlayerInputActions _playerInputActions;
 
@@ -13,6 +14,7 @@ public class GameInput : MonoBehaviour
         _playerInputActions.Player.Enable();
 
         _playerInputActions.Player.Interact.performed += Interact_performed;
+        _playerInputActions.Player.InteractAlternate.performed += InteractAlternate_performed; ;
     }
 
     public Vector2 GetMovementVectorNormilized()
@@ -27,5 +29,10 @@ public class GameInput : MonoBehaviour
     private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         OnInteractAction?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void InteractAlternate_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnInteractAlternateAction?.Invoke(this, EventArgs.Empty);
     }
 }

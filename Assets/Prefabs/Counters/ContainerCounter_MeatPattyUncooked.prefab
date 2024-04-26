@@ -25,6 +25,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ContainerCounter_MeatPattyUncooked
       objectReference: {fileID: 0}
+    - target: {fileID: 3504971137690190187, guid: 9c743f136764ec74587195ddc687af0c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: aa1bacc24dde76e47b2ec0dd4e82385b,
+        type: 3}
     - target: {fileID: 9108422546407303284, guid: 9c743f136764ec74587195ddc687af0c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -75,6 +81,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9191535491536916939, guid: 9c743f136764ec74587195ddc687af0c,
+        type: 3}
+      propertyPath: _kitchenObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: a72e1626c8380e74994cbfc278a80689,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
