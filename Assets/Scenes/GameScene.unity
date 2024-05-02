@@ -4484,7 +4484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waitingToStartTimer: 0
   _countdownToStartTimer: 3
-  _gamePlayingTimerMax: 10
+  _gamePlayingTimerMax: 60
 --- !u!1 &1672257317 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3294758251327466535, guid: 1c5dda3c7cd3cf742afcade5419faeab,
