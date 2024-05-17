@@ -91,12 +91,9 @@ public class SoundManager : MonoBehaviour
         PlaySound(_audioClipRefsSO.Warning, position);
     }
 
-    public void ChangeVolume()
+    public void ChangeVolumeBySlider(float value)
     {
-        _volume += 0.1f;
-
-        if (_volume > 1f)
-            _volume = 0f;
+        _volume = value;
 
         PlayerPrefs.SetFloat(PlayerPrefsSoundEffectsVolume, _volume);
         PlayerPrefs.Save();

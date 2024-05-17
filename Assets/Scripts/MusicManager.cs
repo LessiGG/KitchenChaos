@@ -20,13 +20,9 @@ public class MusicManager : MonoBehaviour
         _audioSource.volume = _volume;
     }
 
-    public void ChangeVolume()
+    public void ChangeVolumeBySlider(float value)
     {
-        _volume += 0.1f;
-
-        if (_volume > 1f)
-            _volume = 0f;
-
+        _volume = value;
         _audioSource.volume = _volume;
 
         PlayerPrefs.SetFloat(PlayerPrefsMusicVolume, _volume);

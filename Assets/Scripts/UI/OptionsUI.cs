@@ -7,8 +7,6 @@ public class OptionsUI : MonoBehaviour
 {
     public static OptionsUI Instance { get; private set; }
 
-    [SerializeField] private Button _soundEffectsButton;
-    [SerializeField] private Button _musicButton;
     [SerializeField] private Button _closeButton;
     [SerializeField] private Button _moveUpButton;
     [SerializeField] private Button _moveDownButton;
@@ -21,8 +19,6 @@ public class OptionsUI : MonoBehaviour
     [SerializeField] private Button _gamepadInteractAlternateButton;
     [SerializeField] private Button _gamepadPauseButton;
 
-    [SerializeField] private TextMeshProUGUI _soundEffectsText;
-    [SerializeField] private TextMeshProUGUI _musicText;
     [SerializeField] private TextMeshProUGUI _moveUpText;
     [SerializeField] private TextMeshProUGUI _moveDownText;
     [SerializeField] private TextMeshProUGUI _moveLeftText;
@@ -33,8 +29,13 @@ public class OptionsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _gamepadInteractText;
     [SerializeField] private TextMeshProUGUI _gamepadInteractAlternateText;
     [SerializeField] private TextMeshProUGUI _gamepadPauseText;
+    [SerializeField] private TextMeshProUGUI _soundEffectsValueText;
+    [SerializeField] private TextMeshProUGUI _musicValueText;
 
     [SerializeField] private Transform _pressToRebindKeyTransform;
+
+    [SerializeField] private Slider _SoundEffectsSlider;
+    [SerializeField] private Slider _musicSlider;
 
     private Action _onClosedButtonAction;
 
@@ -42,22 +43,22 @@ public class OptionsUI : MonoBehaviour
     {
         Instance = this;
 
-        _soundEffectsButton.onClick.AddListener(() =>
-        {
-            SoundManager.Instance.ChangeVolume();
-            UpdateVisual();
-        });
-
-        _musicButton.onClick.AddListener(() =>
-        {
-            MusicManager.Instance.ChangeVolume();
-            UpdateVisual();
-        });
-
         _closeButton.onClick.AddListener(() =>
         {
             Hide();
             _onClosedButtonAction();
+        });
+
+        _SoundEffectsSlider.onValueChanged.AddListener(value =>
+        {
+            SoundManager.Instance.ChangeVolumeBySlider(value);
+            UpdateVisual();
+        });
+
+        _musicSlider.onValueChanged.AddListener(value =>
+        {
+            MusicManager.Instance.ChangeVolumeBySlider(value);
+            UpdateVisual();
         });
 
         _moveUpButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.MoveUp); });
@@ -89,8 +90,10 @@ public class OptionsUI : MonoBehaviour
 
     private void UpdateVisual()
     {
-        _soundEffectsText.text = "Sound effects: " + Mathf.Round(SoundManager.Instance.GetVolume() * 10f);
-        _musicText.text = "Music: " + Mathf.Round(MusicManager.Instance.GetVolume() * 10f);
+        _soundEffectsValueText.text = Mathf.Round(SoundManager.Instance.GetVolume() * 100f).ToString();
+        _SoundEffectsSlider.value = SoundManager.Instance.GetVolume();
+        _musicValueText.text = Mathf.Round(MusicManager.Instance.GetVolume() * 100f).ToString();
+        _musicSlider.value = MusicManager.Instance.GetVolume();
 
         _moveUpText.text = GameInput.Instance.GetBindingText(GameInput.Binding.MoveUp);
         _moveDownText.text = GameInput.Instance.GetBindingText(GameInput.Binding.MoveDown);
@@ -110,7 +113,7 @@ public class OptionsUI : MonoBehaviour
 
         gameObject.SetActive(true);
 
-        _soundEffectsButton.Select();
+        _closeButton.Select();
     }
 
     private void Hide()
@@ -136,5 +139,10 @@ public class OptionsUI : MonoBehaviour
             HidePressToRebindKey();
             UpdateVisual();
         });
+    }
+
+    private void Set()
+    {
+
     }
 }
